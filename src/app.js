@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { signUp, signIn} from "./controllers/auth.controller.js";
+import { signUp, signIn, signOut} from "./controllers/auth.controller.js";
 import { addOperation, listOperations } from "./controllers/operations.controller.js" 
 
 const app = express();
@@ -15,7 +15,9 @@ app.post("/sign-in", signIn);
 
 app.post("/new-operation/:type", addOperation);
 
-app.get("/operations", listOperations)
+app.get("/operations", listOperations);
+
+app.delete("/sign-out", signOut)
 
 const PORT = 5000;
 
