@@ -40,3 +40,33 @@ export async function addOperation(req, res){
         res.status(500).send(error.message);
     }
 }
+
+export async function listOperations(req, res){
+    
+    const {authorization} = req.headers;
+
+    const token = authorization?.replace("Bearer ","");
+
+    if(!token) return res.sendStatus(401);
+
+    try{
+    
+        const session = await db.collection("sessions").findOne({token});
+        if(!session) return res.sendStatus(401);
+        
+        const user = await db.collection("users").findOne({_id: session.userId});
+
+        if(user){
+
+            const operationsList = await db.collection("operations").find().toArray();
+
+            res.send({list: operationsList, name: user.name});
+
+        } else {
+            res.sendStatus(401);
+        }
+        } catch(error){
+            res.status(500).send(error.message);
+        }
+
+}
