@@ -19,6 +19,4 @@ app.get("/operations", listOperations);
 
 app.delete("/sign-out", signOut)
 
-const PORT = 5000;
-
-app.listen(PORT,() => console.log(`Servidor rodando na porta ${PORT}`));
+app.listen(process.env.PORT,() => console.log(`Servidor rodando na porta ${process.env.PORT}`));
