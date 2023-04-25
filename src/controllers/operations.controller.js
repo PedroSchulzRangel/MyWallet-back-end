@@ -31,7 +31,7 @@ export async function addOperation(req, res){
     
     const user = await db.collection("users").findOne({_id: session.userId})
     if(user){
-        await db.collection("operations").insertOne({value, description, type, date: dayjs().format('DD/MM')});
+        await db.collection("operations").insertOne({userId: session.userId,value, description, type, date: dayjs().format('DD/MM')});
         res.sendStatus(201);
     } else {
         res.sendStatus(401);
@@ -58,7 +58,7 @@ export async function listOperations(req, res){
 
         if(user){
 
-            const operationsList = await db.collection("operations").find().toArray();
+            const operationsList = await db.collection("operations").find({userId: session.userId}).toArray();
 
             res.send({list: operationsList, name: user.name});
 
